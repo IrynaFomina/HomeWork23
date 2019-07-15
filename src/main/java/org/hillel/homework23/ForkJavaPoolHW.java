@@ -1,7 +1,7 @@
 package org.hillel.homework23;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 import java.util.stream.IntStream;
@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 class PrimeNumbers extends RecursiveTask<List<Integer>> {
     private static int[] inputData;
     private int min, max;
-    private static List<Integer> primeList = new ArrayList<>();
+    private static CopyOnWriteArrayList<Integer> primeList = new CopyOnWriteArrayList<>();
 
     public PrimeNumbers(int[] inputData) {
         this.inputData = inputData;
@@ -26,7 +26,6 @@ class PrimeNumbers extends RecursiveTask<List<Integer>> {
     @Override
     protected List<Integer> compute() {
         int length = max - min + 1;
-//        System.out.println(min + " "+max + " "+ length);
         if (primeList.size() < 3) {
             primeList.add(1);
             primeList.add(2);
@@ -45,7 +44,6 @@ class PrimeNumbers extends RecursiveTask<List<Integer>> {
                     }
                     if (isPrime) {
                         primeList.add(inputData[i]);
-//                        System.out.println(Thread.currentThread().getName() + " added " +inputData[i] );
                     }
                 }
             }
@@ -66,7 +64,7 @@ public class ForkJavaPoolHW {
         int data[] = IntStream.rangeClosed(1, 1000000).toArray();
         long t = System.currentTimeMillis();
         List<Integer> res = new ForkJoinPool().invoke(new PrimeNumbers(data));
-//        System.out.println("res is " + res);
+        System.out.println(res.size());
         System.out.println(System.currentTimeMillis() - t);
     }
 }
